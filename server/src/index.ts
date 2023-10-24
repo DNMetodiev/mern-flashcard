@@ -1,4 +1,13 @@
-import express from "express";
+import express, { Request, Response } from "express";
 const app = express();
 
-app.listen(5000)
+app.get("/", (req: Request, res: Response) => {
+  res.send("gg!");
+});
+
+app.get("/hello", (req: Request, res: Response) => {
+  res.send("Hello World!");
+});
+
+
+app.listen(5000);
