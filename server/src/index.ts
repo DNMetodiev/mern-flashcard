@@ -7,14 +7,18 @@ const PORT = 5000;
 
 const app = express();
 
+app.use(express.json());
 
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("gg!");
-});
 
-app.get("/hello", (req: Request, res: Response) => {
-  res.send("Hello World!");
+app.post("/decks", async (req: Request, res: Response) => {
+  // res.send("Hello World!");
+  console.log(req.body)
+  const newDeck = new Deck({
+    title: req.body.title,
+  });
+  const createdDeck = await newDeck.save();
+  res.json(createdDeck);
 });
 
 
