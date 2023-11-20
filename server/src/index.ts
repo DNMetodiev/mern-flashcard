@@ -1,10 +1,13 @@
 import express, { Request, Response } from "express";
-import mongoose from "mongoose";
+import mongoose, { get } from "mongoose";
 
 import { config } from "dotenv";
 config();
 import cors from "cors";
 import Deck from "./models/Deck";
+import { getDecksController } from "./controllers/getDeckController";
+import { createDeckController } from "./controllers/createDeckController";
+import { deleteDeckController } from "./controllers/deleteDeckController";
 
 const PORT = 5000;
 
@@ -15,28 +18,11 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.get('/decks', async (req: Request, res: Response) => {
-  //To do: fetch all decks
-  const decks = await Deck.find({});
-  res.json(decks);
-});
+app.get('/decks', getDecksController);
 
-app.post("/decks", async (req: Request, res: Response) => {
-  // res.send("Hello World!");
-  console.log(req.body)
-  const newDeck = new Deck({
-    title: req.body.title,
-  });
-  const createdDeck = await newDeck.save();
-  res.json(createdDeck);
-});
+app.post("/decks", createDeckController);
 
-app.delete("/decks/:deckId", async (req: Request, res: Response) => {
-  //TODO - get deck ID from the url, delete the deck from the database, return the deleted deck to the user who made the reques
-  const deckId = req.params.deckId;
-  const deck = await Deck.findByIdAndDelete(deckId);
-  res.json(deck);
-});
+app.delete("/decks/:deckId", deleteDeckController);
 
 
 const db = mongoose.connect(process.env.MONGO_URL!).then(() => {
