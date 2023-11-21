@@ -22,7 +22,7 @@ app.use(express.json());
 app.get('/decks', getDecksController);
 app.post("/decks", createDeckController);
 app.delete("/decks/:deckId", deleteDeckController);
-app.post("/decks/:deckId/cards", createCardForDeckController)
+app.post("/decks/:deckId/cards", createCardForDeckController);
 
 const db = mongoose.connect(process.env.MONGO_URL!).then(() => {
   console.log(`Connected to ${PORT}`);
